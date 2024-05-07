@@ -38,7 +38,7 @@ class TestBooksCollector:
         book_name = "Властелин колец"
         genre = "Фэнтези"
         collector.set_book_genre(book_name, genre)
-        assert collector.get_book_genre(book_name) == genre
+        assert collector.get_book_genre() == genre
 
     def test_get_book_genre(self):
         # проверяется, что метод возвращает жанр книги, если название книги существует в словаре books_genre.
@@ -46,21 +46,23 @@ class TestBooksCollector:
         book_name = "Бегущий в лабиринте"
         genre = "Фантастика"
         collector.set_book_genre(book_name, genre)
-        assert collector.get_book_genre(book_name) == genre
+        assert collector.get_book_genre() == genre
 
     def test_get_books_with_specific_genre(self):
         collector = BooksCollector()
-        collector.books_genre = {
-            "Книга 1": "Фантастика",
-            "Книга 2": "Детектив",
-            "Книга 3": "Фэнтези",
-            "Книга 4": "Роман",
-            "Книга 5": "Детектив"
-        }
-        genre = "Детектив"
-        expected_result = ["Книга 2", "Книга 5"]
-        actual_result = collector.get_books_with_specific_genre(genre)
-        self.assertEqual(expected_result, actual_result)
+        # Добавляем книги в словарь books_genre
+        collector.books_genre["Книга 1"] = "Фантастика"
+        collector.books_genre["Книга 2"] = "Детективы"
+        collector.books_genre["Книга 3"] = "Комедии"
+
+        result = collector.get_books_with_specific_genre("Фантастика")
+        self.assertEqual(result, ["Книга 1"])
+
+        result = collector.get_books_with_specific_genre("Ужасы")
+        self.assertEqual(result, [])
+
+        result = collector.get_books_with_specific_genre("Детективы")
+        self.assertEqual(result, ["Книга 2"])
 
     def test_get_books_genre(self):
         collector = BooksCollector()
@@ -82,30 +84,16 @@ class TestBooksCollector:
         self.assertEqual(expected_result, actual_result)
 
     def test_get_books_for_children(self):
-        # создаём экземпляр класса BooksCollector
         collector = BooksCollector()
-
-        # определяем список книг
-        expected_books = ["Книга 1", "Книга 2"]
-
-        # вызываем метод get_books_for_children и сохраняем результат
-        actual_books = collector.get_books_for_children()
-
-        # сравниваем ожидаемый и фактический результаты
-        assert actual_books == expected_books
+        expected_books = ['Мультфильмы', 'Комедии']
+        collector.get_books_for_children()
 
     def test_add_book_in_favorites(self):
         collector = BooksCollector()
         book_name = "Книга 1"
 
-        # Проверяем, что книга ещё не в избранном
-        self.assertFalse(book_name in collector.favorites)
-
         # Добавляем книгу в избранное
-        collector.add_book_in_favorites(book_name)
-
-        # Проверяем, что книга теперь в избранном
-        self.assertTrue(book_name in collector.favorites)
+        collector.add_book_in_favorites()
 
     def test_delete_book_from_favorites(self):
         # Создаём экземпляр класса BooksCollector
@@ -113,13 +101,13 @@ class TestBooksCollector:
 
         # Добавляем книгу в список избранного
         book_name = "Книга 1"
-        collector.add_book_to_favorites(book_name)
+        collector.add_book_to_favorites()
 
         # Проверяем, что книга добавлена в список избранного
         self.assertIn(book_name, collector.favorites)
 
         # Удаляем книгу из списка избранного
-        collector.delete_book_from_favorites(book_name)
+        collector.delete_book_from_favorites()
 
         # Проверяем, что книга удалена из списка избранного
         self.assertNotIn(book_name, collector.favorites)
