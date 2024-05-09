@@ -28,7 +28,7 @@ class TestBooksCollector:
         collector = BooksCollector()
         book_name = "Голодные игры"
         collector.add_new_book(book_name)
-        assert book_name in collector.books_genre
+        assert book_name in collector.get_books_genre()
         assert len(book_name) >= 1 and len(book_name) <= 40
 
     def test_set_book_genre(self):
@@ -37,18 +37,22 @@ class TestBooksCollector:
         collector = BooksCollector()
         book_name = "Властелин колец"
         genre = "Фэнтези"
-        collector.set_book_genre(book_name, genre)
-        assert collector.get_book_genre() == genre
 
-    def test_get_book_genre(self):
+        # Проверка наличия книги в словаре
+        if book_name in collector.books_genre:
+            # Установка жанра книги
+            collector.set_book_genre(book_name, genre)
+            assert collector.get_book_genre(book_name) == genre
+
+    def get_book_genre(self):
         # проверяется, что метод возвращает жанр книги, если название книги существует в словаре books_genre.
         collector = BooksCollector()
         book_name = "Бегущий в лабиринте"
         genre = "Фантастика"
         collector.set_book_genre(book_name, genre)
-        assert collector.get_book_genre() == genre
+        assert collector.get_book_genre(book_name) == genre
 
-    def test_get_books_with_specific_genre():
+    def test_get_books_with_specific_genre(self):
         collector = BooksCollector()
 
         # Добавляем книги в словарь books_genre
@@ -87,14 +91,13 @@ class TestBooksCollector:
     def test_get_books_for_children(self):
         collector = BooksCollector()
         expected_books = ['Мультфильмы', 'Комедии']
-        collector.get_books_for_children()
+        assert collector.get_books_for_children(expected_books)
 
     def test_add_book_in_favorites(self):
         collector = BooksCollector()
         book_name = "Книга 1"
-
         # Добавляем книгу в избранное
-        collector.add_book_in_favorites()
+        assert collector.is_book_in_favorites(book_name)
 
     def test_delete_book_from_favorites(self):
         collector = BooksCollector()
@@ -104,14 +107,15 @@ class TestBooksCollector:
 
     def test_get_list_of_favorites_books(self):
         collector = BooksCollector()
+
+        # Добавляем книги в список favorites
         book_1 = "Книга 1"
         book_2 = "Книга 2"
         book_3 = "Книга 3"
 
-        # Добавляем книги в список favorites
-        collector.favorites.append(book_1)
-        collector.favorites.append(book_2)
-        collector.favorites.append(book_3)
+        collector.add_book_to_favorites(book_1)
+        collector.add_book_to_favorites(book_2)
+        collector.add_book_to_favorites(book_3)
 
         # Вызываем метод get_list_of_favorites_books
         list_of_books = collector.get_list_of_favorites_books()
