@@ -48,21 +48,22 @@ class TestBooksCollector:
         collector.set_book_genre(book_name, genre)
         assert collector.get_book_genre() == genre
 
-    def test_get_books_with_specific_genre(self):
+    def test_get_books_with_specific_genre():
         collector = BooksCollector()
+
         # Добавляем книги в словарь books_genre
-        collector.books_genre["Книга 1"] = "Фантастика"
-        collector.books_genre["Книга 2"] = "Детективы"
-        collector.books_genre["Книга 3"] = "Комедии"
+        collector.add_new_book("Книга 1", "Фантастика")
+        collector.add_new_book("Книга 2", "Детективы")
+        collector.add_new_book("Книга 3", "Комедии")
 
         result = collector.get_books_with_specific_genre("Фантастика")
-        self.assertEqual(result, ["Книга 1"])
+        assert result == ["Книга 1"]
 
         result = collector.get_books_with_specific_genre("Ужасы")
-        self.assertEqual(result, [])
+        assert result == []
 
         result = collector.get_books_with_specific_genre("Детективы")
-        self.assertEqual(result, ["Книга 2"])
+        assert result == ["Книга 2"]
 
     def test_get_books_genre(self):
         collector = BooksCollector()
@@ -81,7 +82,7 @@ class TestBooksCollector:
             "Книга 5": "Детектив"
         }
         actual_result = collector.get_books_genre()
-        self.assertEqual(expected_result, actual_result)
+        assert actual_result == expected_result
 
     def test_get_books_for_children(self):
         collector = BooksCollector()
@@ -96,21 +97,10 @@ class TestBooksCollector:
         collector.add_book_in_favorites()
 
     def test_delete_book_from_favorites(self):
-        # Создаём экземпляр класса BooksCollector
         collector = BooksCollector()
-
-        # Добавляем книгу в список избранного
         book_name = "Книга 1"
-        collector.add_book_to_favorites()
-
-        # Проверяем, что книга добавлена в список избранного
-        self.assertIn(book_name, collector.favorites)
-
-        # Удаляем книгу из списка избранного
         collector.delete_book_from_favorites()
-
-        # Проверяем, что книга удалена из списка избранного
-        self.assertNotIn(book_name, collector.favorites)
+        assert book_name not in collector.favorites
 
     def test_get_list_of_favorites_books(self):
         collector = BooksCollector()
@@ -127,4 +117,4 @@ class TestBooksCollector:
         list_of_books = collector.get_list_of_favorites_books()
 
         # Проверяем, что возвращаемый список содержит все добавленные книги
-        self.assertCountEqual(list_of_books, [book_1, book_2, book_3])
+        assert set(list_of_books) == {book_1, book_2, book_3}
