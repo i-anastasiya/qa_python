@@ -37,12 +37,8 @@ class TestBooksCollector:
         collector = BooksCollector()
         book_name = "Властелин колец"
         genre = "Фэнтези"
-
-        # Проверка наличия книги в словаре
-        if book_name in collector.books_genre:
-            # Установка жанра книги
-            collector.set_book_genre(book_name, genre)
-            assert collector.get_book_genre(book_name) == genre
+        collector.set_book_genre(book_name, genre)
+        assert collector.get_book_genre(book_name) == genre
 
     def get_book_genre(self):
         # проверяется, что метод возвращает жанр книги, если название книги существует в словаре books_genre.
@@ -97,7 +93,8 @@ class TestBooksCollector:
         collector = BooksCollector()
         book_name = "Книга 1"
         # Добавляем книгу в избранное
-        assert collector.is_book_in_favorites(book_name)
+        collector.add_book_in_favorites()
+        assert book_name in collector.favorites
 
     def test_delete_book_from_favorites(self):
         collector = BooksCollector()
