@@ -37,14 +37,17 @@ class TestBooksCollector:
         collector = BooksCollector()
         book_name = "Властелин колец"
         genre = "Фэнтези"
+        collector.add_new_book(book_name)
         collector.set_book_genre(book_name, genre)
-        assert collector.get_book_genre(book_name) == genre
+        assert collector.get_book_genre[book_name] == genre
 
+    # получаем жанр книги по её имени
     def get_book_genre(self):
         # проверяется, что метод возвращает жанр книги, если название книги существует в словаре books_genre.
         collector = BooksCollector()
         book_name = "Бегущий в лабиринте"
         genre = "Фантастика"
+        collector.add_new_book(book_name)
         collector.set_book_genre(book_name, genre)
         assert collector.get_book_genre(book_name) == genre
 
@@ -86,19 +89,22 @@ class TestBooksCollector:
 
     def test_get_books_for_children(self):
         collector = BooksCollector()
-        expected_books = ['Мультфильмы', 'Комедии']
-        assert collector.get_books_for_children(expected_books)
+        genre = ['Мультфильмы', 'Комедии']
+        book_name = "Бегущий в лабиринте"
+        collector.add_new_book(book_name)
+        collector.set_book_genre(book_name, genre)
+        assert collector.get_books_for_children(genre)
 
     def test_add_book_in_favorites(self):
         collector = BooksCollector()
-        book_name = "Книга 1"
+        book_name = "Гарри Поттер"
         # Добавляем книгу в избранное
-        collector.add_book_in_favorites()
+        collector.add_new_book_in_favorites(book_name)
         assert book_name in collector.favorites
 
     def test_delete_book_from_favorites(self):
         collector = BooksCollector()
-        book_name = "Книга 1"
+        book_name = "Гарри Поттер"
         collector.delete_book_from_favorites()
         assert book_name not in collector.favorites
 
@@ -110,9 +116,9 @@ class TestBooksCollector:
         book_2 = "Книга 2"
         book_3 = "Книга 3"
 
-        collector.add_book_to_favorites(book_1)
-        collector.add_book_to_favorites(book_2)
-        collector.add_book_to_favorites(book_3)
+        collector.add_new_book(book_1)
+        collector.add_new_book(book_2)
+        collector.add_new_book(book_3)
 
         # Вызываем метод get_list_of_favorites_books
         list_of_books = collector.get_list_of_favorites_books()
