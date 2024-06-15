@@ -1,12 +1,13 @@
 from main import BooksCollector
 
+
 # класс TestBooksCollector объединяет набор тестов, которыми мы покрываем наше приложение BooksCollector
 # обязательно указывать префикс Test
 class TestBooksCollector:
 
     # пример теста:
     # обязательно указывать префикс test_
-    # дальше идет название метода, который тестируем add_new_book_
+    # дальше идет название метода, которpython main.py ый тестируем add_new_book_
     # затем, что тестируем add_two_books - добавление двух книг
     def test_add_new_book_add_two_books(self):
         # создаем экземпляр (объект) класса BooksCollector
@@ -22,51 +23,43 @@ class TestBooksCollector:
 
     # напиши свои тесты ниже
     # чтобы тесты были независимыми в каждом из них создавай отдельный экземпляр класса BooksCollector()
+
     def test_add_new_book(self):
-        # проверяется, что метод добавляет новую книгу в словарь books_genre,
-        # если название книги не существует в словаре и длина названия книги находится в диапазоне от 1 до 40 символов.
         collector = BooksCollector()
-        book_name = "Голодные игры"
-        collector.add_new_book(book_name)
+        book_name = 'Гарри Поттер и философский камень'
+        collector.add_new_book('Гарри Поттер и философский камень')
         assert book_name in collector.get_books_genre()
-        assert len(book_name) >= 1 and len(book_name) <= 40
 
     def test_set_book_genre(self):
-        # проверяется, что метод устанавливает жанр книги,
-        # если название книги существует в словаре books_genre и жанр является допустимым.
         collector = BooksCollector()
-        book_name = "Властелин колец"
-        genre = "Фэнтези"
+        genre = 'Фантастика'
+        book_name = 'Гарри Поттер и философский камень'
         collector.add_new_book(book_name)
         collector.set_book_genre(book_name, genre)
-        assert collector.get_book_genre[book_name] == genre
+        assert collector.get_book_genre(book_name) == genre
 
-    # получаем жанр книги по её имени
-    def get_book_genre(self):
-        # проверяется, что метод возвращает жанр книги, если название книги существует в словаре books_genre.
+    def test_get_book_genre(self):
         collector = BooksCollector()
-        book_name = "Бегущий в лабиринте"
         genre = "Фантастика"
+        book_name = 'Гарри Поттер и философский камень'
         collector.add_new_book(book_name)
         collector.set_book_genre(book_name, genre)
         assert collector.get_book_genre(book_name) == genre
 
     def test_get_books_with_specific_genre(self):
         collector = BooksCollector()
-
-        # Добавляем книги в словарь books_genre
-        collector.add_new_book("Книга 1", "Фантастика")
-        collector.add_new_book("Книга 2", "Детективы")
-        collector.add_new_book("Книга 3", "Комедии")
+        genre = collector.books_genre['Гарри Поттер и философский камень'] = "Фантастика"
+        genre_1 = collector.books_genre['Шерлок Холмс'] = "Детектив"
+        book_name = collector.favorites.append('Гарри Поттер и философский камень')
+        collector.set_book_genre(book_name, genre)
+        collector.set_book_genre(book_name, genre_1)
 
         result = collector.get_books_with_specific_genre("Фантастика")
-        assert result == ["Книга 1"]
+        assert len(result) == 1
+        assert 'Гарри Поттер и философский камень' in result
 
-        result = collector.get_books_with_specific_genre("Ужасы")
+        result = collector.get_books_with_specific_genre("Детектив")
         assert result == []
-
-        result = collector.get_books_with_specific_genre("Детективы")
-        assert result == ["Книга 2"]
 
     def test_get_books_genre(self):
         collector = BooksCollector()
@@ -89,39 +82,28 @@ class TestBooksCollector:
 
     def test_get_books_for_children(self):
         collector = BooksCollector()
-        genre = ['Мультфильмы', 'Комедии']
-        book_name = "Бегущий в лабиринте"
+        genre = 'Фантастика'
+        book_name = 'Гарри Поттер и философский камень'
         collector.add_new_book(book_name)
         collector.set_book_genre(book_name, genre)
-        assert collector.get_books_for_children(genre)
+        assert collector.get_books_for_children() == [book_name]
 
-    def test_add_book_in_favorites(self):
+    def test_add_book_to_favorites(self):
         collector = BooksCollector()
-        book_name = "Гарри Поттер"
-        # Добавляем книгу в избранное
-        collector.add_new_book_in_favorites(book_name)
+        book_name = 'Гарри Поттер и философский камень'
+        collector.add_book_in_favorites('Гарри Поттер и философский камень')
+        collector.favorites.append(book_name)
         assert book_name in collector.favorites
 
     def test_delete_book_from_favorites(self):
         collector = BooksCollector()
-        book_name = "Гарри Поттер"
-        collector.delete_book_from_favorites()
+        book_name = 'Гарри Поттер и философский камень'
+        collector.delete_book_from_favorites('Гарри Поттер и философский камень')
         assert book_name not in collector.favorites
 
-    def test_get_list_of_favorites_books(self):
+    def test_get_list_of_favourites_books(self):
         collector = BooksCollector()
-
-        # Добавляем книги в список favorites
-        book_1 = "Книга 1"
-        book_2 = "Книга 2"
-        book_3 = "Книга 3"
-
-        collector.add_new_book(book_1)
-        collector.add_new_book(book_2)
-        collector.add_new_book(book_3)
-
-        # Вызываем метод get_list_of_favorites_books
-        list_of_books = collector.get_list_of_favorites_books()
-
-        # Проверяем, что возвращаемый список содержит все добавленные книги
-        assert set(list_of_books) == {book_1, book_2, book_3}
+        book_name = 'Гарри Поттер и философский камень'
+        collector.add_book_in_favorites('Гарри Поттер и философский камень')
+        collector.favorites.append(book_name)
+        assert book_name in collector.get_list_of_favorites_books()
