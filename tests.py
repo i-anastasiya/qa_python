@@ -38,7 +38,7 @@ class TestBooksCollector:
         book_name = 'Гарри Поттер и философский камень'
         collector.add_new_book(book_name)
         collector.set_book_genre(book_name, genre)
-        assert book_name, genre in collector.get_books_genre()
+        assert book_name in collector.get_books_genre()
 
     def test_get_book_genre(self):
         # устанавливаем книге жанр и получаем жанр книги по её имени
